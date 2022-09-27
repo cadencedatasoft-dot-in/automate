@@ -18,8 +18,8 @@ def redeploy_webhook():
   try:
     if request.method == 'POST':
       params = request.json
-      bucket = params['Records']['s3']['bucket']['name']
-      obj = unquote(params['Records']['s3']['object']['key'])
+      bucket = params['Records'][0]['s3']['bucket']['name']
+      obj = unquote(params['Records'][0]['s3']['object']['key'])
       s3 = S3(app.config['miniohost'], app.config['minioport'])
       s3.login( app.config.get('miniouser'), app.config.get('miniopass') )
       s3.download_s3obj(bucket, obj)

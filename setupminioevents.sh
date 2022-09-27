@@ -9,7 +9,19 @@ export PATH=$PATH:$HOME/minio-binaries/
 
 cd $HOME/minio-binaries
 
-./mc alias set MINIO "http://$1:$2" anand 12345cds
+./mc alias set MINIO "http://$1:$2" minioadmin minioadmin
+
+./mc admin config set MINIO notify_webhook endpoint="http://$1:$2/hooks/redeploy-webhook"
+
+
+# ./mc admin config set MINIO notify_webhook \
+# endpoint="http://54.202.108.158:9000/hooks/redeploy-webhook" \
+#     auth_token=""  \
+#     queue_dir=""   \
+#     queue_limit="" \
+#     comment="image found"\
+#     client_key=""\
+#     client_cert=""
 
 ./mc admin config set MINIO notify_webhook \
 endpoint="http://$1:$2/hooks/redeploy-webhook" \
