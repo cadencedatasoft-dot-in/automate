@@ -20,7 +20,7 @@ def redeploy_webhook():
       params = request.json
       bucket = params['Records']['s3']['bucket']['name']
       obj = unquote(params['Records']['s3']['object']['key'])
-      s3 = S3()
+      s3 = S3(app.config['miniohost'], app.config['minioport'])
       s3.login( app.config.get('miniouser'), app.config.get('miniopass') )
       s3.download_s3obj(bucket, obj)
       sy = Sys()
@@ -33,6 +33,7 @@ def redeploy_webhook():
 if __name__ == '__main__':
   app.config['apiport'] = sys.argv[1]
   app.config['miniohost'] = sys.argv[2]
-  app.config['miniouser'] = sys.argv[3]
-  app.config['miniopass'] = sys.argv[4]
+  app.config['minioport'] = sys.argv[3]
+  app.config['miniouser'] = sys.argv[4]
+  app.config['miniopass'] = sys.argv[5]
   app.run(host='0.0.0.0', port=app.config.get('apiport'))
