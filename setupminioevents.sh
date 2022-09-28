@@ -9,7 +9,7 @@ export PATH=$PATH:$HOME/minio-binaries/
 
 cd $HOME/minio-binaries
 
-./mc alias set MINIO "http://$1:$2" minioadmin minioadmin
+./mc alias set MINIO "http://$1:$2" $3 $4
 
 ./mc admin config set MINIO notify_webhook endpoint="http://$1:$2/hooks/redeploy-webhook"
 
@@ -35,6 +35,6 @@ endpoint="http://$1:$2/hooks/redeploy-webhook" \
 ./mc event add \
     --event "put"  \
     --suffix "img" \
-    MINIO/$3 \
+    MINIO/$5 \
     arn:minio:sqs::_:webhook
     
