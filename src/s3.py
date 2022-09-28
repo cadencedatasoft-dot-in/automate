@@ -3,17 +3,18 @@ from minio import Minio
 from minio.credentials.providers import Credentials
 
 class S3:
-  def __init__(self, host, port):
+  def __init__(self, host, port, secure:bool):
     self.client: Minio = None
     self.host = host
     self.port = port
+    self.secure = secure
 
   def login(self, user:str, password:str, region:str="my-region"):
     hostport = self.host + ":" + self.port
     try:
       self.client = Minio(
         self.host + ":" + self.port,
-        secure=False,
+        secure=self.secure,
         access_key=user,
         secret_key=password,
         region=region,
