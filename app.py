@@ -10,7 +10,12 @@ app = Flask(__name__)
 @app.route('/test', methods=['POST'])
 def webhook():
   if request.method == 'POST':
-    print("Data received from Webhook is: ", request.json)
+    # print("Data received from Webhook is: ", request.json)
+    secure = False
+    if app.config['miniosecure'] == "true":
+      secure = True    
+    s3 = S3(app.config['miniohost'], app.config['minioport'], secure)
+    s3.login( app.config.get('miniouser'), app.config.get('miniopass'), "" )
     return "Webhook received!"
 
 @app.route('/hooks/redeploy-webhook', methods=['POST'])
